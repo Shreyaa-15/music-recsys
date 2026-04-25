@@ -1,122 +1,67 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom'
+import Feed      from './pages/Feed'
+import ABTest    from './pages/ABTest'
+import Dashboard from './pages/Dashboard'
 
-function App() {
-  const [count, setCount] = useState(0)
+const navStyle = ({ isActive }) => ({
+  color: isActive ? 'var(--accent2)' : 'var(--muted)',
+  fontWeight: isActive ? 500 : 400,
+  fontSize: 13,
+  letterSpacing: '0.01em',
+  paddingBottom: 2,
+  borderBottom: isActive ? '1px solid var(--accent)' : '1px solid transparent',
+  transition: 'all 0.15s'
+})
 
+export default function App() {
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <BrowserRouter>
+      <div style={{ minHeight: '100vh', background: 'var(--bg)' }}>
+        {/* Topbar */}
+        <header style={{
+          position: 'sticky', top: 0, zIndex: 100,
+          background: 'rgba(10,10,15,0.85)',
+          backdropFilter: 'blur(12px)',
+          borderBottom: '1px solid var(--border)',
+          padding: '0 2rem',
+          display: 'flex', alignItems: 'center',
+          justifyContent: 'space-between', height: 52
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div style={{
+              width: 22, height: 22, borderRadius: 6,
+              background: 'linear-gradient(135deg, var(--accent), var(--accent2))',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: 11, fontWeight: 700, color: '#fff'
+            }}>R</div>
+            <span style={{ fontWeight: 600, fontSize: 14, letterSpacing: '-0.01em' }}>
+              RecSys
+            </span>
+          </div>
+          <nav style={{ display: 'flex', gap: 28 }}>
+            <NavLink to="/"          style={navStyle}>Feed</NavLink>
+            <NavLink to="/ab-test"   style={navStyle}>A/B Test</NavLink>
+            <NavLink to="/dashboard" style={navStyle}>Dashboard</NavLink>
+          </nav>
+          <div style={{
+            fontSize: 11, color: 'var(--muted)',
+            background: 'var(--surface)',
+            border: '1px solid var(--border)',
+            borderRadius: 4, padding: '3px 8px',
+            letterSpacing: '0.05em'
+          }}>
+            TWO-TOWER
+          </div>
+        </header>
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+        <main style={{ maxWidth: 1100, margin: '0 auto', padding: '2rem 1.5rem' }}>
+          <Routes>
+            <Route path="/"          element={<Feed />} />
+            <Route path="/ab-test"   element={<ABTest />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+          </Routes>
+        </main>
+      </div>
+    </BrowserRouter>
   )
 }
-
-export default App
